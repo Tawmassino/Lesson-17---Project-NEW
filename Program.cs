@@ -11,10 +11,12 @@ namespace Lesson_17___Project_Quiz
             int overallScore = 0; // initial score
             string[] scoresEnglish = new string[10]; // Replaced later
             string[] playersList = new string[10];
+            Dictionary<int, string> RandomAnswers = new Dictionary<int, string>();
+            RandomAnswers[500] = user;
 
 
             #region Login
-            Login(user, ref overallScore, ref scoresEnglish);
+            Login(user, ref overallScore, ref scoresEnglish, RandomAnswers);
             #endregion
 
 
@@ -43,16 +45,16 @@ namespace Lesson_17___Project_Quiz
 
         #region MenuMethods
 
-        public static void Login(string user, ref int overallScore, ref string[] scoresEnglish)
+        public static void Login(string user, ref int overallScore, ref string[] scoresEnglish, Dictionary<int, string> RandomAnswers)
         {
             Clear();
             Console.Write("Login name:");
             user = "x"; int maxCountFail = 0;
             UserName(ref user);
             Clear();
-            Menu(user, ref overallScore, ref scoresEnglish);
+            Menu(user, ref overallScore, ref scoresEnglish, RandomAnswers);
         }
-        public static void Menu(string user, ref int overallScore, ref string[] scoresEnglish)
+        public static void Menu(string user, ref int overallScore, ref string[] scoresEnglish, Dictionary<int, string> RandomAnswers)
         {
             Console.Clear();
             Console.WriteLine("");
@@ -94,19 +96,19 @@ namespace Lesson_17___Project_Quiz
                 switch (menuChoice)
                 {
                     case "start":
-                        StartGame(user, ref overallScore, ref scoresEnglish);
+                        StartGame(user, ref overallScore, ref scoresEnglish, RandomAnswers);
                         break;
                     case "s":
-                        StartGame(user, ref overallScore, ref scoresEnglish);
+                        StartGame(user, ref overallScore, ref scoresEnglish, RandomAnswers);
                         break;
                     case "rules":
-                        RulesScreen(user, ref overallScore, ref scoresEnglish);
+                        RulesScreen(user, ref overallScore, ref scoresEnglish, RandomAnswers);
                         break;
                     case "statistics":
-                        StatisticsScreen(ref user, ref overallScore, ref scoresEnglish);
+                        StatisticsScreen(ref user, ref overallScore, ref scoresEnglish, RandomAnswers);
                         break;
                     case "logout":
-                        Login(user, ref overallScore, ref scoresEnglish);
+                        Login(user, ref overallScore, ref scoresEnglish, RandomAnswers);
                         break;
                     case "quit":
                         QuitSreen();
@@ -126,7 +128,7 @@ namespace Lesson_17___Project_Quiz
         }
         //------------meth
 
-        public static void RulesScreen(string user, ref int overallScore, ref string[] scoresEnglish)
+        public static void RulesScreen(string user, ref int overallScore, ref string[] scoresEnglish, Dictionary<int, string> RandomAnswers)
         {
             Console.Clear();
             Console.WriteLine(
@@ -147,11 +149,11 @@ namespace Lesson_17___Project_Quiz
             Console.WriteLine("Input any key to continue");
             Console.ReadLine();
 
-            Menu(user, ref overallScore, ref scoresEnglish);
+            Menu(user, ref overallScore, ref scoresEnglish, RandomAnswers);
         }
         //------------meth
 
-        public static void StatisticsScreen(ref string user, ref int overallScore, ref string[] scoresEnglish)
+        public static void StatisticsScreen(ref string user, ref int overallScore, ref string[] scoresEnglish, Dictionary<int, string> RandomAnswers)
         {
             Console.Clear();
             Console.WriteLine(
@@ -173,7 +175,7 @@ namespace Lesson_17___Project_Quiz
                 "==================================================");
             Console.WriteLine("\nType any key to return to menu");
             Console.ReadLine();
-            Menu(user, ref overallScore, ref scoresEnglish);
+            Menu(user, ref overallScore, ref scoresEnglish, RandomAnswers);
         }
         //------------meth
 
@@ -235,7 +237,7 @@ namespace Lesson_17___Project_Quiz
 
         #region GameQuestions
 
-        public static void StartGame(string user, ref int overallScore, ref string[] scoresEnglish)
+        public static void StartGame(string user, ref int overallScore, ref string[] scoresEnglish, Dictionary<int, string> RandomAnswers)
         {
             Console.Clear();
             int maxCountFail = 0;//reset fail counter
@@ -266,6 +268,7 @@ namespace Lesson_17___Project_Quiz
 
             Console.Write($"Current Player: "); ColorYellow();
             Console.WriteLine($"{user}"); ResetClr();
+            RandomAnswers[500] = user;
 
             if (overallScore > 0)
             {
@@ -381,9 +384,9 @@ namespace Lesson_17___Project_Quiz
             string chosenCategory = Console.ReadLine().ToLower();
 
             //didysis pasirinkimas kurios kategorijos
-            if (chosenCategory == "english" || chosenCategory == "e") { Quiz(ref overallScore, user, EnglishQuestions, EnglishAnswers, ref scoresEnglish); }//english 
-            else if (chosenCategory == "random" || chosenCategory == "r") { Quiz(ref overallScore, user, RandomQuestions, RandomAnswers, ref scoresEnglish); } //random
-            else if (chosenCategory == "menu") { Menu(user, ref overallScore, ref scoresEnglish); }
+            if (chosenCategory == "english" || chosenCategory == "e") { Quiz(ref overallScore, user, EnglishQuestions, EnglishAnswers, ref scoresEnglish, RandomAnswers); }//english 
+            else if (chosenCategory == "random" || chosenCategory == "r") { Quiz(ref overallScore, user, RandomQuestions, RandomAnswers, ref scoresEnglish, RandomAnswers); } //random
+            else if (chosenCategory == "menu") { Menu(user, ref overallScore, ref scoresEnglish, RandomAnswers); }
             #endregion
 
 
@@ -401,7 +404,7 @@ namespace Lesson_17___Project_Quiz
         //------------meth
 
         #region Questions
-        public static void Quiz(ref int overallScore, string user, Dictionary<int, string> EnglishQuestions, Dictionary<int, string> EnglishAnswers, ref string[] scoresEnglish)
+        public static void Quiz(ref int overallScore, string user, Dictionary<int, string> EnglishQuestions, Dictionary<int, string> EnglishAnswers, ref string[] scoresEnglish, Dictionary<int, string> RandomAnswers)
         {
 
             Console.WriteLine("How many points");
@@ -428,7 +431,7 @@ namespace Lesson_17___Project_Quiz
                 Console.WriteLine($"+{klausimoTaskai}");
                 Console.WriteLine("Press any key to return to game screen");
                 string whatever = Console.ReadLine();
-                StartGame(user, ref overallScore, ref scoresEnglish);
+                StartGame(user, ref overallScore, ref scoresEnglish, RandomAnswers);
 
             }
             else if (userAnswer != EnglishAnswers[klausimoTaskai])
@@ -442,7 +445,7 @@ namespace Lesson_17___Project_Quiz
                 Console.WriteLine($"-{klausimoTaskai}");
                 Console.WriteLine("Press any key to return to game screen");
                 string whatever = Console.ReadLine();
-                StartGame(user, ref overallScore, ref scoresEnglish);
+                StartGame(user, ref overallScore, ref scoresEnglish, RandomAnswers);
             };
         }
 
