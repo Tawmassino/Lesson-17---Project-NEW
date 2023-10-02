@@ -7,50 +7,61 @@ namespace Lesson_17___Project_Quiz
     {
         static void Main(string[] args)
         {
+            string user = "DefaultName"; // Replaced later
+            int overallScore = 0; // initial score
+            string[] scoresEnglish = new string[10]; // Replaced later
+
+
             #region Login
-            Login();
+            Login(user, ref overallScore, ref scoresEnglish);
             #endregion
-            int overallScore = 0;
+
 
             // TO DO
 
             //GITHUB
+            //CW shortcut
+            //DIFFERENT USER
+
+            // DONE
             //500 points random answer
             //CHANGE SCORE
-
-
-
-
-
-
 
 
 
         }
         // =============================================================== END OF MAIN ===================================================================
 
+        //
 
         // ================================================================= METHODS ======================================================================
 
         #region MenuMethods
 
-        public static void Login()
+        public static void Login(string user, ref int overallScore, ref string[] scoresEnglish)
         {
             Clear();
             Console.Write("Login name:");
-            string user = "x"; int maxCountFail = 0;
+            user = "x"; int maxCountFail = 0;
             UserName(ref user);
             Clear();
-            Menu(user);
+            Menu(user, ref overallScore, ref scoresEnglish);
         }
-        public static void Menu(string user)
+        public static void Menu(string user, ref int overallScore, ref string[] scoresEnglish)
         {
             Console.Clear();
             Console.WriteLine("");
 
 
             //welcome menu
-            Console.Write("              _                          \r\n             | |                         \r\n__      _____| | ___ ___  _ __ ___   ___ \r\n\\ \\ /\\ / / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\\r\n \\ V  V /  __/ | (_| (_) | | | | | |  __/\r\n  \\_/\\_/ \\___|_|\\___\\___/|_| |_| |_|\\___|");
+            Console.Write(
+                "              _                          " +
+                "\r\n             | |                         " +
+                "\r\n__      _____| | ___ ___  _ __ ___   ___ " +
+                "\r\n\\ \\ /\\ / / _ \\ |/ __/ _ \\| '_ ` _ \\ / _ " +
+                "\\\r\n \\ V  V /  __/ | (_| (_) | | | | | |  __/" +
+                "\r\n  \\_/\\_/ \\___|_|\\___\\___/|_| |_| |_|\\___|");
+
             ColorYellow(); Console.WriteLine($"   {user}"); ResetClr();
             Console.WriteLine(
                 " ================================================== ");
@@ -78,23 +89,26 @@ namespace Lesson_17___Project_Quiz
                 switch (menuChoice)
                 {
                     case "start":
-                        StartGame(user);
+                        StartGame(user, ref overallScore, ref scoresEnglish);
                         break;
                     case "s":
-                        StartGame(user);
+                        StartGame(user, ref overallScore, ref scoresEnglish);
                         break;
                     case "rules":
-                        RulesScreen();
+                        RulesScreen(user, ref overallScore, ref scoresEnglish);
                         break;
                     case "statistics":
                         StatisticsScreen();
                         break;
                     case "logout":
-                        Login(); break;
+                        Login(user, ref overallScore, ref scoresEnglish);
+                        break;
                     case "quit":
-                        QuitSreen(); break;
+                        QuitSreen();
+                        break;
                     case "q":
-                        QuitSreen(); break;
+                        QuitSreen();
+                        break;
                     default:
                         Console.WriteLine("Invalid entry. Try again: ");
                         menuChoiceCount++;
@@ -107,10 +121,20 @@ namespace Lesson_17___Project_Quiz
         }
         //------------meth
 
-        public static void RulesScreen()
+        public static void RulesScreen(string user, ref int overallScore, ref string[] scoresEnglish)
         {
             Console.Clear();
-            Console.WriteLine("RULES");
+            Console.WriteLine("================> RULES <=================");
+            Console.WriteLine("Choose a category and the points.");
+            ColorGreen();
+            Console.WriteLine("Answer correctly - win points");
+            ColorRed();
+            Console.WriteLine("Answer incorrectly - win points");
+            ResetClr();
+            Console.WriteLine("Input any key to continue");
+            Console.ReadLine();
+
+            Menu(user, ref overallScore, ref scoresEnglish);
         }
         //------------meth
 
@@ -122,10 +146,11 @@ namespace Lesson_17___Project_Quiz
         }
         //------------meth
 
-        public static void ResultScreen()
+        public static void ResultScreen(ref int overallScore)
         {
             Console.Clear();
             Console.WriteLine("STATISTICS");
+            Console.WriteLine($"Your score is {overallScore}");
         }
         //------------meth
 
@@ -179,7 +204,7 @@ namespace Lesson_17___Project_Quiz
 
         #region GameQuestions
 
-        public static void StartGame(string user)
+        public static void StartGame(string user, ref int overallScore, ref string[] scoresEnglish)
         {
             Console.Clear();
             int maxCountFail = 0;//reset fail counter
@@ -187,7 +212,7 @@ namespace Lesson_17___Project_Quiz
             Console.WriteLine("            _____          __  __ ______          \r\n  ______   / ____|   /\\   |  \\/  |  ____|  ______ \r\n |______| | |  __   /  \\  | \\  / | |__    |______|\r\n  ______  | | |_ | / /\\ \\ | |\\/| |  __|    ______ \r\n |______| | |__| |/ ____ \\| |  | | |____  |______|\r\n           \\_____/_/    \\_\\_|  |_|______|         \r\n                                                  ");
 
             string[] categories = { "English ", "Random" };
-            string[] scoresEnglish = { "100", "200", "300", "400", "500" };
+            string[] scoresEnglish1 = { "100", "200", "300", "400", "500" };
             string[] scoresRandom = { "100", "200", "300", "400", "500" };
 
             //display game table
@@ -196,9 +221,9 @@ namespace Lesson_17___Project_Quiz
             Console.WriteLine("{0,-15} {1,-15}", categories[0], categories[1]);
             Console.WriteLine("==================================================");
 
-            for (int i = 0; i < scoresEnglish.Length; i++)
+            for (int i = 0; i < scoresEnglish1.Length; i++)
             {
-                Console.WriteLine("{0,-15} {1,-15}", scoresEnglish[i], scoresRandom[i]);
+                Console.WriteLine("{0,-15} {1,-15}", scoresEnglish1[i], scoresRandom[i]);
             }
 
             Console.WriteLine(
@@ -206,7 +231,7 @@ namespace Lesson_17___Project_Quiz
 
             //current player and score
             //string currentPlayer = "Player 1";
-            int overallScore = 0;
+            //int overallScore;
 
             Console.Write($"Current Player: "); ColorYellow();
             Console.WriteLine($"{user}"); ResetClr();
@@ -251,20 +276,22 @@ namespace Lesson_17___Project_Quiz
             //2 dictionaries suristi bendru KEY
             Dictionary<int, string> EnglishQuestions = new Dictionary<int, string>()
         {
-            {100, "English question 1" },
-            {200, "English question 2" },
-            {300, "English question 3" },
-            {400, "English question 4" },
-            {500, "English question 5" },
+            {100, "My birthday is ____ September 22nd\r\n\r\nat/ in / on\r\n" },
+            {200, "Last night, I had an  ___ (exhaust) experience" },
+            {300, "How long .................?\r\n\r\n\r\nA. are you waiting\r\nB. did you wait\r\nC. have you been waiting\r\n" },
+            {400, "Despite apparent assurances, the participation of grassroots initiatives in the overall processes proved to be  quite .................\r\nA. Incessant\r\nB. Inessential\r\nC. Unfathomable" },
+            {500, "Delays invariably occur between the output of a system and ................. adjustments.\r\n\r\n\r\nA. implicit\r\nB. explicit\r\nC. subsequent\r\n" },
         };
 
             Dictionary<int, string> EnglishAnswers = new Dictionary<int, string>()
         {
-            {100, "answer" },
-            {200, "answer" },
-            {300, "answer" },
-            {400, "answer" },
-            {500, "answer" },
+            {100, "on" },
+            {200, "exhausting" },
+            {300, "c" },
+            {400, "b" },
+            {500, "c" },
+
+
         };
             #endregion
 
@@ -286,16 +313,16 @@ namespace Lesson_17___Project_Quiz
             {200, "mary" },
             {300, "2" },
             {400, "12" },
-            {500, "{user}" },
+            {500, "" },             };
 
-             };
+            RandomAnswers[500] = user;
 
             Console.WriteLine("Choose the category");
             string chosenCategory = Console.ReadLine().ToLower();
 
             //didysis pasirinkimas kurios kategorijos
-            if (chosenCategory == "english") { Quiz(ref overallScore, user, EnglishQuestions, EnglishAnswers, ref scoresEnglish); }//english 
-            else if (chosenCategory == "random") { Quiz(ref overallScore, user, RandomQuestions, RandomAnswers, ref scoresEnglish); };//random
+            if (chosenCategory == "english" || chosenCategory == "e") { Quiz(ref overallScore, user, EnglishQuestions, EnglishAnswers, ref scoresEnglish); }//english 
+            else if (chosenCategory == "random" || chosenCategory == "r") { Quiz(ref overallScore, user, RandomQuestions, RandomAnswers, ref scoresEnglish); };//random
 
             #endregion
 
@@ -334,11 +361,12 @@ namespace Lesson_17___Project_Quiz
                 Console.WriteLine("CORRECT!");
                 ResetClr();
 
+
                 PointsAdd(ref overallScore, klausimoTaskai);
                 Console.WriteLine($"+{klausimoTaskai}");
                 Console.WriteLine("Press any key to return to game screen");
                 string whatever = Console.ReadLine();
-                StartGame(user);
+                StartGame(user, ref overallScore, ref scoresEnglish);
 
             }
             else if (userAnswer != EnglishAnswers[klausimoTaskai])
@@ -352,7 +380,7 @@ namespace Lesson_17___Project_Quiz
                 Console.WriteLine($"-{klausimoTaskai}");
                 Console.WriteLine("Press any key to return to game screen");
                 string whatever = Console.ReadLine();
-                StartGame(user);
+                StartGame(user, ref overallScore, ref scoresEnglish);
             };
         }
 
@@ -362,7 +390,7 @@ namespace Lesson_17___Project_Quiz
 
         //=============================== NEW METHOD AREA ============================
 
-        
+
         public static void UserName(ref string name)
         {
             name = Console.ReadLine();
@@ -372,18 +400,20 @@ namespace Lesson_17___Project_Quiz
 
             if (name == "quit" || name == "exit" || name == "q") { QuitSreen(); }
         }
-        
+
         //------------meth
         public static void User_Scores()
         {
             Dictionary<string, int> userScoreBoard = new Dictionary<string, int>()
             {
             };
-            Console.WriteLine("Printing names and ages");
+            Console.WriteLine("Printing users and scores");
             foreach (var name in userScoreBoard)
             {
                 Console.WriteLine($"{name.Key} - {name.Value} ");
             }
+
+
         }
         //------------meth
 
