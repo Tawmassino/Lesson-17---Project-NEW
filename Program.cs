@@ -23,6 +23,7 @@ namespace Lesson_17___Project_Quiz
             //quit two times from start game
             //delete already answered questions - finish game
             //menu StartGame veikia tik jeigu ivedama is karto, po to ne
+            //answer alternative inputs
 
             // --------------- DONE
             //500 points random answer
@@ -128,7 +129,15 @@ namespace Lesson_17___Project_Quiz
         public static void RulesScreen(string user, ref int overallScore, ref string[] scoresEnglish)
         {
             Console.Clear();
-            Console.WriteLine("================> RULES <=================");
+            Console.WriteLine(
+                      "           _____  _    _ _      ______  _____           " +
+                  "\r\n  ______  |  __ \\| |  | | |    |  ____|/ ____|  ______  " +
+                   "\r\n |______| | |__) | |  | | |    | |__  | (___   |______| " +
+                   "\r\n  ______  |  _  /| |  | | |    |  __|  \\___ \\   ______  " +
+                 "\r\n |______| | | \\ \\| |__| | |____| |____ ____) | |______| " +
+                 "\r\n          |_|  \\_\\\\____/|______|______|_____/           " +
+                "\r\n                                                        ");
+
             Console.WriteLine("Choose a category and the points.");
             ColorGreen();
             Console.WriteLine("Answer correctly - win points");
@@ -301,7 +310,7 @@ namespace Lesson_17___Project_Quiz
 
         }
 
-        #endregion
+
 
         //------------meth
         public static int PointsAdd(ref int overallScore, int klausimoTaskai)
@@ -383,6 +392,8 @@ namespace Lesson_17___Project_Quiz
 
 
         //------------meth
+
+
         public static void RandomQuiz()
         {
             Console.WriteLine("Input how many points");
@@ -440,7 +451,11 @@ namespace Lesson_17___Project_Quiz
         //------------meth
 
         //=============================== NEW METHOD AREA ============================
+        #endregion
 
+        //------------meth
+
+        #region miscMethod
 
         public static void UserName(ref string name)
         {
@@ -452,7 +467,6 @@ namespace Lesson_17___Project_Quiz
             if (name == "quit" || name == "exit" || name == "q") { QuitSreen(); }
         }
 
-        //------------meth
         public static void User_Scores()
         {
             Dictionary<string, int> userScoreBoard = new Dictionary<string, int>()
@@ -466,15 +480,14 @@ namespace Lesson_17___Project_Quiz
 
 
         }
-
         //------------meth
         public static Dictionary<string, int> RemoveItem(string ItemToDelete, Dictionary<string, int> updatedDictionary)
         {
             updatedDictionary.Remove(ItemToDelete);
             return updatedDictionary;
         }
+        #endregion
 
-        //------------meth
         //=============================== NEW METHOD AREA ============================
         #region ColorMethods
         public static void Clear()
