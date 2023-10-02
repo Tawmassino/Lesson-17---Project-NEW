@@ -10,6 +10,7 @@ namespace Lesson_17___Project_Quiz
             string user = "DefaultName"; // Replaced later
             int overallScore = 0; // initial score
             string[] scoresEnglish = new string[10]; // Replaced later
+            string[] playersList = new string[10];
 
 
             #region Login
@@ -17,15 +18,18 @@ namespace Lesson_17___Project_Quiz
             #endregion
 
 
-            // TO DO
-
-            //GITHUB
-            //CW shortcut
+            // --------------- TO DO
             //DIFFERENT USER
+            //quit two times from start game
+            //delete already answered questions - finish game
+            //menu StartGame veikia tik jeigu ivedama is karto, po to ne
 
-            // DONE
+            // --------------- DONE
             //500 points random answer
             //CHANGE SCORE
+            //GITHUB
+            //quit to menu
+            //CW shortcut
 
 
 
@@ -98,7 +102,7 @@ namespace Lesson_17___Project_Quiz
                         RulesScreen(user, ref overallScore, ref scoresEnglish);
                         break;
                     case "statistics":
-                        StatisticsScreen();
+                        StatisticsScreen(ref user, ref overallScore, ref scoresEnglish);
                         break;
                     case "logout":
                         Login(user, ref overallScore, ref scoresEnglish);
@@ -138,11 +142,29 @@ namespace Lesson_17___Project_Quiz
         }
         //------------meth
 
-        public static void StatisticsScreen()
+        public static void StatisticsScreen(ref string user, ref int overallScore, ref string[] scoresEnglish)
         {
             Console.Clear();
-            Console.WriteLine("STATISTICS");
-            User_Scores();
+            Console.WriteLine(
+                      "   _____ _        _   _     _   _          " +
+                  "\r\n  / ____| |      | | (_)   | | (_)         " +
+                  "\r\n | (___ | |_ __ _| |_ _ ___| |_ _  ___ ___ " +
+                 "\r\n  \\___ \\| __/ _` | __| / __| __| |/ __/ __|" +
+                  "\r\n  ____) | || (_| | |_| \\__ \\ |_| | (__\\__ " +
+                "\\\r\n |_____/ \\__\\__,_|\\__|_|___/\\__|_|\\___|___/");
+
+            Console.WriteLine(
+                "==================================================");
+            //User_Scores();
+
+            //foreach (string player in playersList) { }
+            Console.WriteLine($"Player {user}'s score is {overallScore}");
+            Console.WriteLine();
+            Console.WriteLine(
+                "==================================================");
+            Console.WriteLine("\nType any key to return to menu");
+            Console.ReadLine();
+            Menu(user, ref overallScore, ref scoresEnglish);
         }
         //------------meth
 
@@ -235,11 +257,38 @@ namespace Lesson_17___Project_Quiz
 
             Console.Write($"Current Player: "); ColorYellow();
             Console.WriteLine($"{user}"); ResetClr();
-            Console.WriteLine($"Current Score: {overallScore}");
+
+            if (overallScore > 0)
+            {
+
+                Console.Write($"Current Score: ");
+                ColorGreen();
+                Console.Write($"{overallScore}");
+                ResetClr();
+            }
+            else if (overallScore < 0)
+            {
+                Console.Write($"Current Score: ");
+                ColorRed();
+                Console.Write($"{overallScore}");
+                ResetClr();
+            }
+            else if (overallScore == 0)
+            {
+                Console.Write($"Current Score: ");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write($"{overallScore}");
+                ResetClr();
+            }
             Console.WriteLine(
-               " ======> CHOOSE CATEGORY AND POINTS <======= ");
+                "\n==================================================");
+
+            Console.WriteLine();
+            //Console.WriteLine(
+            //   " ======> CHOOSE CATEGORY AND POINTS <======= ");
             Console.WriteLine(
-                " ====> TYPE 'QUIT' TO RETURN TO MENU <==== ");
+                " ====> TYPE 'MENU' TO RETURN TO MENU <==== ");
+
 
             //kategorija
             ChooseCategory(ref overallScore, user, ref scoresEnglish);
@@ -317,13 +366,15 @@ namespace Lesson_17___Project_Quiz
 
             RandomAnswers[500] = user;
 
-            Console.WriteLine("Choose the category");
+            //Console.WriteLine("Choose the category");
+            Console.WriteLine(
+               " ======> CHOOSE CATEGORY AND POINTS <======= ");
             string chosenCategory = Console.ReadLine().ToLower();
 
             //didysis pasirinkimas kurios kategorijos
             if (chosenCategory == "english" || chosenCategory == "e") { Quiz(ref overallScore, user, EnglishQuestions, EnglishAnswers, ref scoresEnglish); }//english 
-            else if (chosenCategory == "random" || chosenCategory == "r") { Quiz(ref overallScore, user, RandomQuestions, RandomAnswers, ref scoresEnglish); };//random
-
+            else if (chosenCategory == "random" || chosenCategory == "r") { Quiz(ref overallScore, user, RandomQuestions, RandomAnswers, ref scoresEnglish); } //random
+            else if (chosenCategory == "menu") { Menu(user, ref overallScore, ref scoresEnglish); }
             #endregion
 
 
@@ -415,7 +466,6 @@ namespace Lesson_17___Project_Quiz
 
 
         }
-        //------------meth
 
         //------------meth
         public static Dictionary<string, int> RemoveItem(string ItemToDelete, Dictionary<string, int> updatedDictionary)
